@@ -14,6 +14,10 @@ class Terminal {
 		console.log(output);
 	}
 
+	static tableOutput(output) {
+		console.table(output);
+	}
+
 	static clear() {
 		process.stdout.write('\x1b[2J\x1b[H');
 	}
@@ -44,13 +48,38 @@ class Cryptography {
 		}
 		return result;
 	}
+
+	static async exhaustiveKeySearch(ciphertext) {
+		const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		const results = [];
+
+		for (let key = 0; key <= 25; key++) {
+			let plaintext = '';
+			for (let i = 0; i < ciphertext.length; i++) {
+				const charIndex = alphabet.indexOf(ciphertext[i].toUpperCase());
+				if (charIndex !== -1) {
+					const newIndex = (charIndex - key + 26) % 26; // Menggunakan -key dan modulo 26 untuk pergeseran mundur
+					plaintext += alphabet[newIndex];
+				} else {
+					plaintext += ciphertext[i];
+				}
+			}
+			results.push({ key, plaintext });
+		}
+
+		return results;
+	}
 }
 
 const run = async () => {
-	let inputText = await Terminal.input('Masukkan teks untuk dienkripsi:\t');
+	let decryptedText = await Terminal.input('Masukkan teks untuk dienkripsi:\t');
 	let shift = parseInt(await Terminal.input('Masukkan jumlah pergeseran (shift):\t'), 10);
 
-	Terminal.output(await Cryptography.caesarCipherEncrypt(inputText, shift));
+	Terminal.output(await Cryptography.caesarCipherEncrypt(decryptedText, shift));
+
+	let encryptedText = await Terminal.input('Masukkan ciphertext untuk dekripsi:\t');
+	Terminal.tableOutput(await Cryptography.exhaustiveKeySearch(encryptedText));
+
 	Terminal.end();
 };
 
