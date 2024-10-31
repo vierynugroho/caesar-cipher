@@ -28,20 +28,22 @@ class Terminal {
 	}
 }
 
+const ALPHABET = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
 class Cryptography {
 	static async caesarCipherEncrypt(text, shift) {
 		let result = '';
 		shift = shift % 26;
 
 		for (let i = 0; i < text.length; i++) {
+			text = text.toLowerCase();
 			let char = text[i];
 
-			if (char >= 'A' && char <= 'Z') {
-				let newChar = String.fromCharCode(((char.charCodeAt(0) - 65 + shift) % 26) + 65);
-				result += newChar;
-			} else if (char >= 'a' && char <= 'z') {
-				let newChar = String.fromCharCode(((char.charCodeAt(0) - 97 + shift) % 26) + 97);
-				result += newChar;
+			if (char >= 'a' && char <= 'z') {
+				let index = ALPHABET.indexOf(char);
+				let newIndex = (index + shift) % 26;
+				result += ALPHABET[newIndex];
+				console.log(`${char} (${index + shift}) mod 26 : ${ALPHABET[newIndex]} (${newIndex})`);
 			} else {
 				result += char;
 			}
@@ -58,7 +60,7 @@ class Cryptography {
 			for (let i = 0; i < ciphertext.length; i++) {
 				const charIndex = alphabet.indexOf(ciphertext[i].toUpperCase());
 				if (charIndex !== -1) {
-					const newIndex = (charIndex - key + 26) % 26; // Menggunakan -key dan modulo 26 untuk pergeseran mundur
+					const newIndex = (charIndex - key + 26) % 26;
 					plaintext += alphabet[newIndex];
 				} else {
 					plaintext += ciphertext[i];
