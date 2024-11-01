@@ -1,70 +1,7 @@
-const readline = require('readline');
-const r_interface = readline.createInterface({ input: process.stdin, output: process.stdout });
-
-const TERMINAL_COLORS = {
-	reset: '\x1b[0m',
-	bright: '\x1b[1m',
-	dim: '\x1b[2m',
-	underscore: '\x1b[4m',
-	blink: '\x1b[5m',
-	reverse: '\x1b[7m',
-	hidden: '\x1b[8m',
-
-	fg: {
-		black: '\x1b[30m',
-		red: '\x1b[31m',
-		green: '\x1b[32m',
-		yellow: '\x1b[33m',
-		blue: '\x1b[34m',
-		magenta: '\x1b[35m',
-		cyan: '\x1b[36m',
-		white: '\x1b[37m',
-	},
-	bg: {
-		black: '\x1b[40m',
-		red: '\x1b[41m',
-		green: '\x1b[42m',
-		yellow: '\x1b[43m',
-		blue: '\x1b[44m',
-		magenta: '\x1b[45m',
-		cyan: '\x1b[46m',
-		white: '\x1b[47m',
-	},
-};
-
 const ALPHABET = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-class Terminal {
-	static input(prompt) {
-		return new Promise((resolve) => {
-			r_interface.question(prompt, (input) => {
-				resolve(input);
-			});
-		});
-	}
-
-	static output(title, data) {
-		console.log(TERMINAL_COLORS.bg.yellow, `======== ${title} ========`, TERMINAL_COLORS.reset);
-		console.log(data);
-	}
-
-	static tableOutput(title, data) {
-		console.log(TERMINAL_COLORS.bg.green, TERMINAL_COLORS.fg.white, `======== ${title} ========`, TERMINAL_COLORS.reset);
-		console.table(data);
-	}
-
-	static clear() {
-		process.stdout.write('\x1b[2J\x1b[H');
-	}
-
-	static end() {
-		r_interface.close();
-		process.exit(0);
-	}
-}
-
 class Cryptography {
-	static async caesarCipherEncrypt(plaintext, shift) {
+	static caesarCipherEncrypt(plaintext, shift) {
 		let result = '';
 		let logEncrypt = [];
 
@@ -79,7 +16,7 @@ class Cryptography {
 				let newIndex = (index + shift) % 26;
 				result += ALPHABET[newIndex];
 				logEncrypt.push({
-					char: index,
+					char_index: `${char} - ${index}`,
 					shift: shift,
 					charShift: index + shift,
 					charShift_mod_26: newIndex,
@@ -89,10 +26,39 @@ class Cryptography {
 				result += char;
 			}
 		}
+
 		return { result, logEncrypt };
 	}
 
-	static async exhaustiveKeySearch(ciphertext) {
+	static caesarCipherDecrypt(ciphertext, shift) {
+		let result = '';
+		let logDecrypt = [];
+
+		shift = shift % 26;
+
+		for (let i = 0; i < ciphertext.length; i++) {
+			ciphertext = ciphertext.toLowerCase();
+			let char = ciphertext[i];
+
+			if (char >= 'a' && char <= 'z') {
+				let index = ALPHABET.indexOf(char);
+				let newIndex = (index - shift + 26) % 26;
+				result += ALPHABET[newIndex];
+				logDecrypt.push({
+					cipherChar_index: `${char} - ${index}`,
+					shift: shift,
+					cipherChar_Shift: index - shift,
+					cipherChar_Shift_mod_26: newIndex,
+					plain_char: ALPHABET[newIndex],
+				});
+			} else {
+				result += char;
+			}
+		}
+		return { result, logDecrypt };
+	}
+
+	static exhaustiveKeyDecrypt(ciphertext) {
 		const results = [];
 
 		for (let key = 0; key <= 25; key++) {
@@ -111,25 +77,41 @@ class Cryptography {
 
 		return { results };
 	}
+
+	static exhaustiveKeyEncrypt(plaintext) {
+		const results = [];
+
+		for (let key = 0; key < ALPHABET.length; key++) {
+			let ciphertext = '';
+
+			for (let i = 0; i < plaintext.length; i++) {
+				const char = plaintext[i].toLowerCase();
+				const charIndex = ALPHABET.indexOf(char);
+
+				if (charIndex !== -1) {
+					const newIndex = (charIndex + key) % ALPHABET.length;
+					ciphertext += ALPHABET[newIndex].toUpperCase();
+				} else {
+					ciphertext += plaintext[i];
+				}
+			}
+
+			results.push({ key, ciphertext });
+		}
+
+		return { results };
+	}
 }
 
-const run = async () => {
-	// caesar cipher
-	let plaintext = await Terminal.input('Masukkan teks untuk dienkripsi\t\t: ');
-	let shift = parseInt(await Terminal.input('Masukkan jumlah pergeseran (shift)\t: '));
+// const caesarEncrypt = Cryptography.caesarCipherEncrypt('awasi asterix', 3);
+// const caesarDecrypt = Cryptography.caesarCipherDecrypt('dzdvl dvwhula', 3);
+// const exhaustiveEncrypt = Cryptography.exhaustiveKeyEncrypt('awasi asterix');
+// const exhaustiveDecrypt = Cryptography.exhaustiveKeyDecrypt('dzdvl dvwhula');
 
-	const { result, logEncrypt } = await Cryptography.caesarCipherEncrypt(plaintext, shift);
+// console.log(caesarEncrypt.result);
+// console.table(caesarEncrypt.logEncrypt);
+// console.log(caesarDecrypt.result);
+// console.table(caesarDecrypt.logDecrypt);
 
-	// exhaustive
-	let cipherText = await Terminal.input('Masukkan ciphertext untuk dekripsi\t: ');
-	const { results } = await Cryptography.exhaustiveKeySearch(cipherText);
-
-	Terminal.tableOutput('Exhaustive Key', results);
-
-	Terminal.output('Caesar Cipher', `Plaintext\t: ${plaintext}\nCiphertext\t: ${result}`);
-	Terminal.tableOutput('LOG | Caesar Cipher', logEncrypt);
-
-	Terminal.end();
-};
-
-run();
+// console.log(exhaustiveDecrypt.results);
+// console.table(exhaustiveEncrypt.results);
