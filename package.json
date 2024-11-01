@@ -1,10 +1,18 @@
 {
 	"name": "classic-cryptography",
-	"version": "1.0.0",
-	"description": "classic criptography - caesar cipher & exhaustive key search",
-	"main": "index.js",
+	"version": "1.1.1",
+	"main": "dist/cjs/index.cjs.js",
+	"module": "dist/esm/index.esm.js",
+	"exports": {
+		"require": "./dist/cjs/index.cjs.js",
+		"import": "./dist/esm/index.esm.js"
+	},
+	"type": "module",
 	"scripts": {
-		"start": "node index.js"
+		"build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir dist/cjs",
+		"build:esm": "cross-env BABEL_ENV=esm babel src --out-dir dist/esm",
+		"build": "npm run build:cjs && npm run build:esm",
+		"start": "node src/index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -24,5 +32,13 @@
 	"bugs": {
 		"url": "https://github.com/vierynugroho/team_jago-criptography/issues"
 	},
-	"homepage": "https://github.com/vierynugroho/team_jago-criptography#readme"
+	"homepage": "https://github.com/vierynugroho/team_jago-criptography#readme",
+	"devDependencies": {
+		"@babel/cli": "^7.25.9",
+		"@babel/core": "^7.26.0",
+		"@babel/preset-env": "^7.26.0"
+	},
+	"dependencies": {
+		"cross-env": "^7.0.3"
+	}
 }
