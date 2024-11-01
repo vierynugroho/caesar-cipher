@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salin Kode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-1/2 max-w-3xl"> <!-- Memperbesar lebar kotak -->
+        <h1 class="text-2xl font-bold text-center mb-4">Salin Kode</h1>
+        <textarea id="code" class="w-full h-64 border rounded-md p-2 text-gray-700 font-mono" readonly>
+const ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+
+function encrypt() {
+  const plaintext = document.getElementById("plaintext").value.toLowerCase();
+  const shift = parseInt(document.getElementById("shift").value) % 26;
+  let ciphertext = "";
+  let log = [];
+
+  for (let i = 0; i < plaintext.length; i++) {
+    const char = plaintext[i];
+    if (ALPHABET.includes(char)) {
+      const index = ALPHABET.indexOf(char);
+      const newIndex = (index + shift) % 26;
+      ciphertext += ALPHABET[newIndex];
+
+      log.push({
+        index: i,
+        char: char,
+        shift: shift,
+        charShift: index + shift,
+        charShift_mod_26: newIndex,
+        cipher_char: ALPHABET[newIndex],
+      });
+    } else {
+      ciphertext += char;
+    }
+  }
+
+  document.getElementById("ciphertext").innerText = ciphertext.toUpperCase();
+  updateLogTable(log);
+}
+
+function exhaustiveDecrypt() {
+  const ciphertext = document.getElementById("ciphertextInput").value.toLowerCase();
+  const results = [];
+
+  for (let key = 0; key < 26; key++) {
+    let plaintext = "";
+    for (let i = 0; i < ciphertext.length; i++) {
+      const charIndex = ALPHABET.indexOf(ciphertext[i]);
+      if (charIndex !== -1) {
+        const newIndex = (charIndex - key + 26) % 26;
+        plaintext += ALPHABET[newIndex];
+      } else {
+        plaintext += ciphertext[i];
+      }
+    }
+    results.push({ key: key, plaintext: plaintext.toUpperCase() });
+  }
+
+  updateExhaustiveResults(results);
+}
+
+function updateLogTable(log) {
+  const logTable = document.getElementById("logTable");
+  logTable.innerHTML = "";
+
+  log.forEach((entry) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="border p-2 text-center">${entry.index}</td>
+      <td class="border p-2 text-center">${entry.char}</td>
+      <td class="border p-2 text-center">${entry.shift}</td>
+      <td class="border p-2 text-center">${entry.charShift}</td>
+      <td class="border p-2 text-center">${entry.charShift_mod_26}</td>
+      <td class="border p-2 text-center">${entry.cipher_char}</td>
+    `;
+    logTable.appendChild(row);
+  });
+}
+
+function updateExhaustiveResults(results) {
+  const resultsTable = document.getElementById("exhaustiveResults");
+  resultsTable.innerHTML = "";
+
+  results.forEach((result) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="border p-2 text-center">${result.key}</td>
+      <td class="border p-2 text-center">${result.plaintext}</td>
+    `;
+    resultsTable.appendChild(row);
+  });
+}
+        </textarea>
+        <button id="copyButton" class="w-full mt-4 bg-green-500 text-white font-semibold py-3 rounded-md hover:bg-green-600 transition"> <!-- Memperbesar padding tombol -->
+            Salin Kode
+        </button>
+        <div id="message" class="hidden text-green-500 text-center mt-2">Kode telah disalin!</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
