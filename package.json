@@ -1,28 +1,28 @@
 {
-  "name": "classic-cryptography",
-  "version": "1.0.0",
-  "description": "classic criptography - caesar cipher & exhaustive key search",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vierynugroho/team_jago-criptography.git"
-  },
-  "keywords": [
-    "cryptography",
-    "exhaustive",
-    "key",
-    "search",
-    "caesar",
-    "cipher",
-    "vnonymous"
-  ],
-  "author": "Viery Nugroho, vnonymous",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vierynugroho/team_jago-criptography/issues"
-  },
-  "homepage": "https://github.com/vierynugroho/team_jago-criptography#readme"
+	"name": "classic-cryptography",
+	"version": "1.0.0",
+	"description": "classic criptography - caesar cipher & exhaustive key search",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vierynugroho/team_jago-criptography.git"
+	},
+	"keywords": [
+		"cryptography",
+		"exhaustive",
+		"key",
+		"search",
+		"caesar",
+		"cipher",
+		"vnonymous"
+	],
+	"author": "Viery Nugroho, vnonymous",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/vierynugroho/team_jago-criptography/issues"
+	},
+	"homepage": "https://github.com/vierynugroho/team_jago-criptography#readme"
 }

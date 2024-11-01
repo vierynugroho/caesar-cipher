@@ -103,6 +103,8 @@ class Cryptography {
 	}
 }
 
+export default Cryptography;
+
 // const caesarEncrypt = Cryptography.caesarCipherEncrypt('awasi asterix', 3);
 // const caesarDecrypt = Cryptography.caesarCipherDecrypt('dzdvl dvwhula', 3);
 // const exhaustiveEncrypt = Cryptography.exhaustiveKeyEncrypt('awasi asterix');
