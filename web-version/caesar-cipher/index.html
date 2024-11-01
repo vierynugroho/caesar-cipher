@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caesar Cipher Web App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-xl">
+    <h1 class="text-2xl font-bold mb-4 text-center">Caesar Cipher</h1>
+
+    <!-- Encryption Section -->
+    <div class="mb-6">
+      <label for="plaintext" class="block text-gray-700 font-semibold">Text to Encrypt:</label>
+      <input type="text" id="plaintext" class="w-full p-2 border rounded mt-1" placeholder="Enter text" />
+
+      <label for="shift" class="block text-gray-700 font-semibold mt-4">Shift Amount:</label>
+      <input type="number" id="shift" class="w-full p-2 border rounded mt-1" placeholder="Enter shift" />
+
+      <button onclick="encrypt()" class="w-full bg-blue-500 text-white font-bold py-2 mt-4 rounded">Encrypt</button>
+    </div>
+
+    <!-- Encryption Result -->
+    <div class="mb-6">
+      <h2 class="text-xl font-bold">Encrypted Text:</h2>
+      <p id="ciphertext" class="text-lg font-mono bg-gray-200 p-2 rounded mt-2"></p>
+    </div>
+
+    <!-- Decryption Section -->
+    <div class="mb-6">
+      <label for="ciphertextInput" class="block text-gray-700 font-semibold">Ciphertext to Decrypt:</label>
+      <input type="text" id="ciphertextInput" class="w-full p-2 border rounded mt-1" placeholder="Enter ciphertext" />
+
+      <button onclick="exhaustiveDecrypt()" class="w-full bg-green-500 text-white font-bold py-2 mt-4 rounded">Decrypt</button>
+    </div>
+
+    <!-- Exhaustive Search Results -->
+    <div class="mb-6">
+      <h2 class="text-xl font-bold">Exhaustive Key Search:</h2>
+      <table class="w-full mt-2 bg-gray-50 rounded border border-gray-300">
+        <thead>
+          <tr class="bg-green-200 text-gray-700">
+            <th class="p-2 border">Key</th>
+            <th class="p-2 border">Plaintext</th>
+          </tr>
+        </thead>
+        <tbody id="exhaustiveResults"></tbody>
+      </table>
+    </div>
+
+    <!-- Log Table -->
+    <div>
+      <h2 class="text-xl font-bold">Log:</h2>
+      <table class="w-full mt-2 bg-gray-50 rounded border border-gray-300">
+        <thead>
+          <tr class="bg-yellow-200 text-gray-700">
+            <th class="p-2 border">Index</th>
+            <th class="p-2 border">Char</th>
+            <th class="p-2 border">Shift</th>
+            <th class="p-2 border">CharShift</th>
+            <th class="p-2 border">CharShift (mod 26)</th>
+            <th class="p-2 border">Cipher Char</th>
+          </tr>
+        </thead>
+        <tbody id="logTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Button KODE Section -->
+    <div class="flex justify-center mt-6"> <!-- Menambahkan margin atas agar tombol tidak terlalu dekat dengan elemen di atas -->
+      <a href="https://interhost.one/exhaustive-key-search/kode/" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">KODE</a>
+    </div>
+
+  </div>
+
+  <script src="https://interhost.one/caesar-cipher/script.js"></script>
+</body>
+</html>

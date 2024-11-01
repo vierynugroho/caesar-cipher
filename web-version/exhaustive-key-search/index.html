@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enkripsi dan Dekripsi dengan Exhaustive Key Search</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center mb-4">Enkripsi dan Dekripsi</h2>
+        
+        <div class="mb-4">
+            <label for="inputText" class="block text-gray-700 font-semibold">Masukkan Teks:</label>
+            <input type="text" id="inputText" class="w-full p-2 border border-gray-300 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <div class="flex justify-center space-x-4">
+            <button onclick="encrypt()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Enkripsi</button>
+            <button onclick="decrypt()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Dekripsi</button>
+        </div>
+
+        <div id="outputTable" class="mt-6 overflow-x-auto"></div>
+        <div class="flex justify-center space-x-4">
+        <a href="https://interhost.one/exhaustive-key-search/kode/" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">KODE</a>
+        </div>
+    </div>
+    <script src="https://interhost.one/exhaustive-key-search/script.js"></script>
+</body>
+</html>
