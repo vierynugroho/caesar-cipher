@@ -13,3 +13,9 @@ node index.js
 [Exhaustive Key Search](https://interhost.one/exhaustive-key-search)
 <br>
 *Pulled by Nugroho Gusti Bintang Fajar*
+
+### How to running go app?
+_running this command on your terminal_
+``` 
+go run main.go
+```
