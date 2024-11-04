@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"cryptography/module"
+	"cryptography-go/module"
 	"fmt"
 	"os"
 	"strconv"
@@ -17,7 +17,11 @@ func readInput(prompt string) string {
 }
 
 func getModeChoice() (int, error) {
-	modeInput := readInput("Pilih mode (1 untuk enkripsi, 2 untuk dekripsi, 3 untuk exhaustive search): ")
+	fmt.Println("\nSilahkan Pilih Mode yang diinginkan")
+	fmt.Println("1. Caesar Cipher")
+	fmt.Println("2. Exhaustive Key Search")
+	fmt.Printf("3. Exit\n\n")
+	modeInput := readInput("Pilihan mode: ")
 	modeChoice, err := strconv.Atoi(modeInput)
 	if err != nil || modeChoice < 1 || modeChoice > 3 {
 		return 0, fmt.Errorf("pilihan tidak valid. Silakan pilih 1, 2, atau 3")
@@ -26,7 +30,7 @@ func getModeChoice() (int, error) {
 }
 
 func getShift() (int, error) {
-	shiftInput := readInput("Masukkan jumlah pergeseran: ")
+	shiftInput := readInput("\nMasukkan jumlah pergeseran: ")
 	shift, err := strconv.Atoi(shiftInput)
 	if err != nil {
 		return 0, fmt.Errorf("jumlah pergeseran harus berupa angka")
@@ -34,14 +38,8 @@ func getShift() (int, error) {
 	return shift, nil
 }
 
-func main() {
-	modeChoice, err := getModeChoice()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	inputText := readInput("Masukkan teks: ")
+func getInputText() (module.CaesarCipher, module.ExhaustiveSearch) {
+	inputText := readInput("\nMasukkan teks: ")
 
 	cipher := module.CaesarCipher{
 		Text: inputText,
@@ -51,31 +49,58 @@ func main() {
 		CaesarCipher: cipher,
 	}
 
-	if modeChoice == 1 {
-		shift, err := getShift()
+	return cipher, exhaustive
+}
+
+func main() {
+	for {
+		modeChoice, err := getModeChoice()
 		if err != nil {
 			fmt.Println(err)
-			return
+			continue
 		}
-		cipher.Shift = shift
-		cipher.Encrypt()
-		fmt.Println("Teks terenkripsi:", cipher.GetEncryptedText())
-		fmt.Println("")
-		cipher.LogShiftTable(true)
-	} else if modeChoice == 2 {
-		shift, err := getShift()
-		if err != nil {
-			fmt.Println(err)
+
+		switch modeChoice {
+		case 1:
+			fmt.Println("\nPilih opsi Caesar Cipher:")
+			fmt.Println("1. Encrypt Text")
+			fmt.Println("2. Decrypt Text")
+			optionInput := readInput("\nMasukkan pilihan: ")
+			option, err := strconv.Atoi(optionInput)
+			if err != nil || (option != 1 && option != 2) {
+				fmt.Println("Pilihan tidak valid. Silakan pilih 1 atau 2.")
+				continue
+			}
+
+			cipher, _ := getInputText()
+			shift, err := getShift()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			cipher.Shift = shift
+
+			if option == 1 {
+				cipher.Encrypt()
+				fmt.Println("Teks terenkripsi:", cipher.GetEncryptedText())
+				cipher.LogShiftTable(true)
+			} else if option == 2 {
+				cipher.Decrypt()
+				fmt.Println("Teks terdekripsi:", cipher.GetDecryptedText())
+				cipher.LogShiftTable(false)
+			}
+
+		case 2:
+			_, exhaustive := getInputText()
+			fmt.Println("Hasil Exhaustive Search:")
+			exhaustive.ExhaustiveKeySearch()
+
+		case 3:
+			fmt.Println("Keluar dari program.")
 			return
+
+		default:
+			fmt.Println("Pilihan tidak valid. Silakan pilih 1, 2, atau 3.")
 		}
-		cipher.Shift = shift
-		cipher.Decrypt()
-		fmt.Println("Teks terdekripsi:", cipher.GetDecryptedText())
-		fmt.Println("")
-		cipher.LogShiftTable(false)
-	} else if modeChoice == 3 {
-		exhaustive.CaesarCipher.Text = inputText
-		fmt.Println("Hasil Exhaustive Search:")
-		exhaustive.ExhaustiveKeySearch()
 	}
 }
