@@ -20,7 +20,7 @@ go run main.go
 - [Caesar Cipher](https://interhost.one/caesar-cipher)
 - [Exhaustive Key Search](https://interhost.one/exhaustive-key-search)
 
-5. npm package version
+4. npm package version
 - [classic-cryptography_team-1](https://www.npmjs.com/package/classic-cryptography)
 
 <hr>
