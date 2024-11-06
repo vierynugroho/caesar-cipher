@@ -39,6 +39,7 @@
 		"@babel/preset-env": "^7.26.0"
 	},
 	"dependencies": {
+		"classic-cryptography": "^1.1.2",
 		"cross-env": "^7.0.3"
 	}
 }
