@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func readInput(prompt string) string {
@@ -38,8 +39,21 @@ func getShift() (int, error) {
 	return shift, nil
 }
 
-func getInputText() (module.CaesarCipher, module.ExhaustiveSearch) {
+func isAlphabet(s string) bool {
+	for _, char := range s {
+		if !unicode.IsLetter(char) {
+			return false
+		}
+	}
+	return true
+}
+
+func getInputText() (module.CaesarCipher, module.ExhaustiveSearch, error) {
 	inputText := readInput("\nMasukkan teks: ")
+
+	if !isAlphabet(inputText) {
+		return module.CaesarCipher{}, module.ExhaustiveSearch{}, fmt.Errorf("inputan harus berupa huruf atau alphabet")
+	}
 
 	cipher := module.CaesarCipher{
 		Text: inputText,
@@ -49,7 +63,7 @@ func getInputText() (module.CaesarCipher, module.ExhaustiveSearch) {
 		CaesarCipher: cipher,
 	}
 
-	return cipher, exhaustive
+	return cipher, exhaustive, nil
 }
 
 func main() {
@@ -72,7 +86,12 @@ func main() {
 				continue
 			}
 
-			cipher, _ := getInputText()
+			cipher, _, err := getInputText()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
 			shift, err := getShift()
 			if err != nil {
 				fmt.Println(err)
@@ -91,7 +110,12 @@ func main() {
 			}
 
 		case 2:
-			_, exhaustive := getInputText()
+			_, exhaustive, err := getInputText()
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
 			fmt.Println("Hasil Exhaustive Search:")
 			exhaustive.ExhaustiveKeySearch()
 
