@@ -115,6 +115,7 @@ func main() {
 				fmt.Println(err)
 				continue
 			}
+
 			fmt.Println("Hasil Exhaustive Search:")
 			exhaustive.ExhaustiveKeySearch()
 

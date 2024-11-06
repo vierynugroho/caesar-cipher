@@ -1,21 +1,28 @@
+# Classic Cryptography
+- Caesar Cipher
+- Exhaustive Key Search
+
+<hr>
+
 ### How to running this app?
-_running this command on your terminal_
+1. Javascript Terminal Version:
 ``` 
 node index.js
 ```
 
-**created by: viery**
-
-**WEB IMPLEMENT VERSION**
-<br>
-[Caesar Cipher](https://interhost.one/caesar-cipher)
-<br>
-[Exhaustive Key Search](https://interhost.one/exhaustive-key-search)
-<br>
-*Pulled by Nugroho Gusti Bintang Fajar*
-
-### How to running go app?
-_running this command on your terminal_
+2. Golang Terminal Version:
 ``` 
 go run main.go
 ```
+
+3. Web Version
+
+- [Caesar Cipher](https://interhost.one/caesar-cipher)
+- [Exhaustive Key Search](https://interhost.one/exhaustive-key-search)
+
+4. npm package version
+- [classic-cryptography_team-1](https://www.npmjs.com/package/classic-cryptography)
+
+<hr>
+
+### **created by: Team 1 Cryptography**
